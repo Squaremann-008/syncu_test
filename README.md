@@ -1,64 +1,195 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# User Management API
 
-## About Laravel
+This project is a simple **RESTful API** built with **Laravel** and **SQLite**, providing endpoints for managing users. It allows for creating, reading, updating, and deleting users, while utilizing Laravel's built-in functionality for validation, error handling, and database migrations.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Table of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. [Features](#features)
+2. [Requirements](#requirements)
+3. [Installation](#installation)
+4. [API Endpoints](#api-endpoints)
+5. [Testing the API with cURL](#testing-the-api-with-curl)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+- **User management**: CRUD (Create, Read, Update, Delete) functionality for users.
+- **Input validation**: Validates data before it is saved or updated.
+- **Error handling**: Handles and logs errors in a structured manner.
+- **Database migration**: Auto-generates database schema with Laravel migrations.
+- **API Documentation**: Integrated Swagger UI for API documentation and testing.
+- **SQLite**: In-memory or file-based database for lightweight and simple setup.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.x or higher
+- Composer
+- Laravel 10.x or higher
+- SQLite or any other supported database (PostgreSQL, MySQL, etc.)
+- cURL (for testing API endpoints)
 
-## Laravel Sponsors
+## Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Follow the steps below to get the project running:
 
-### Premium Partners
+### Step 1: Clone the repository
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+git clone https://github.com/yourusername/user-management-api.git
+cd user-management-api
+```
 
-## Contributing
+### Step 2: Install dependencies
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Run the following command to install Laravel dependencies:
 
-## Code of Conduct
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Step 3: Set up the `.env` file
 
-## Security Vulnerabilities
+Copy the example environment file and update the necessary variables:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cp .env.example .env
+```
 
-## License
+Make sure to configure the database settings in `.env` to use **SQLite**:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=/absolute/path/to/database/database.sqlite
+```
+
+Create the SQLite database file:
+
+```bash
+touch database/database.sqlite
+```
+
+### Step 4: Generate the application key
+
+```bash
+php artisan key:generate
+```
+
+### Step 5: Run migrations
+
+To create the necessary tables in the database, run:
+
+```bash
+php artisan migrate
+```
+
+### Step 6: Serve the application
+
+You can run the application locally using Laravel’s development server:
+
+```bash
+php artisan serve
+```
+
+The application will now be running at `http://127.0.0.1:8000`.
+
+## API Endpoints
+
+Here are the main API endpoints for managing users:
+
+### **POST** `/api/users`
+
+Create a new user.
+
+- Request Body (JSON):
+
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "secret",
+    "role": "user"
+  }
+  ```
+
+- Response:
+  - `201 Created`: User created successfully.
+
+### **GET** `/api/users`
+
+Retrieve a list of all users.
+
+- Response:
+  - `200 OK`: List of users.
+
+### **GET** `/api/users/{id}`
+
+Retrieve a specific user by ID.
+
+- Response:
+  - `200 OK`: User found.
+  - `404 Not Found`: User not found.
+
+### **PUT** `/api/users/{id}`
+
+Update a specific user by ID.
+
+- Request Body (JSON):
+
+  ```json
+  {
+    "name": "John Updated",
+    "email": "john.updated@example.com",
+    "password": "newpassword",
+    "role": "admin"
+  }
+  ```
+
+- Response:
+  - `200 OK`: User updated successfully.
+  - `404 Not Found`: User not found.
+
+### **DELETE** `/api/users/{id}`
+
+Delete a specific user by ID.
+
+- Response:
+  - `204 No Content`: User deleted successfully.
+  - `404 Not Found`: User not found.
+
+## Testing the API with cURL
+
+You can test the API endpoints using cURL:
+
+### Create a User (POST)
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/users \
+-H "Content-Type: application/json" \
+-d '{"name": "John Doe", "email": "john@example.com", "password": "secret", "role": "user"}'
+```
+
+### Get All Users (GET)
+
+```bash
+curl -X GET http://127.0.0.1:8000/api/users
+```
+
+### Get a Specific User by ID (GET)
+
+```bash
+curl -X GET http://127.0.0.1:8000/api/users/1
+```
+
+### Update a User (PUT)
+
+```bash
+curl -X PUT http://127.0.0.1:8000/api/users/1 \
+-H "Content-Type: application/json" \
+-d '{"name": "John Updated", "email": "john.updated@example.com", "password": "newpassword", "role": "admin"}'
+```
+
+### Delete a User (DELETE)
+
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/users/1
+```
