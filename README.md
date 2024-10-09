@@ -17,7 +17,6 @@ This project is a simple **RESTful API** built with **Laravel** and **SQLite**, 
 - **Input validation**: Validates data before it is saved or updated.
 - **Error handling**: Handles and logs errors in a structured manner.
 - **Database migration**: Auto-generates database schema with Laravel migrations.
-- **API Documentation**: Integrated Swagger UI for API documentation and testing.
 - **SQLite**: In-memory or file-based database for lightweight and simple setup.
 
 ## Requirements
